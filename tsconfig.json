@@ -1,11 +1,26 @@
 {
-    "compilerOptions": {
-      "target": "ES2020",
-      "module": "CommonJS",
-      "outDir": "./dist",
-      "strict": true,
-      "esModuleInterop": true,
-      "resolveJsonModule": true
-    }
-  }
-  
+  "compilerOptions": {
+    // Use modern ECMAScript features
+    "target": "ES2020",
+    // CommonJS module system for Node.js
+    "module": "CommonJS",
+    // Output directory for compiled JS
+    "outDir": "./dist",
+    // Enable all strict type-checking options
+    "strict": true,
+    // Disallow implicit any types
+    "noImplicitAny": true,
+    // Allow default imports from modules with no default export
+    "esModuleInterop": true,
+    // Allow importing .json files
+    "resolveJsonModule": true,
+    // Node types for Node.js environment
+    "types": [
+      "node"
+    ],
+  },
+  "include": [
+    "src/**/*",
+    "src/types/**/*"
+  ]
+}
