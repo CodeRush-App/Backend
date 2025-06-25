@@ -1,9 +1,13 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import app from './app';
 import './config/env';
 
 async function main() {
+  const serverURL = process.env.NODE_ENV === 'development' ? `http://localhost:${process.env.PORT}` : 'https://coderush.loca.lt';
+
   const server = app.listen(process.env.PORT, () => {
-    console.log('Server is running on https://coderush.loca.lt');
+    console.log(`Server is running on ${serverURL}`);
   });
 
   // Graceful shutdown
