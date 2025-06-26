@@ -28,9 +28,13 @@ export const registerUser = async (
 };
 
 export const updateUser = async (id: string, data: Partial<Prisma.usersUpdateInput>) => {
+  let updateData = { ...data };
+  if (data.password) {
+    updateData.password = await bcrypt.hash(data.password as string, 10);
+  }
   return prisma.users.update({
     where: { id },
-    data,
+    data: updateData,
   });
 };
 

@@ -88,11 +88,7 @@ export const createUser = catchAsync(async (req: Request, res: Response, _next: 
   const data = req.body;
   if (!data.password) throw new ApiError(400, 'Password is required');
 
-  const hashedPassword = await bcrypt.hash(data.password, 10);
-  const createdUser = await userService.registerUser({
-    ...data,
-    password: hashedPassword,
-  });
+  const createdUser = await userService.registerUser(data);
   res.status(201).json(createdUser);
 });
 
@@ -128,7 +124,6 @@ export const createUser = catchAsync(async (req: Request, res: Response, _next: 
  */
 export const updateUser = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
   const data = req.body;
-  if (data.password) data.password = await bcrypt.hash(data.password, 10);
 
   const updatedUser = await userService.updateUser(req.params.id, data);
   res.json(updatedUser);
