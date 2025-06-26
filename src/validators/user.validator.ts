@@ -13,8 +13,27 @@ export const userSchema = Joi.object({
   elo: Joi.number().integer().required(),
   phoneNumber: Joi.string().allow(null, '').optional(),
   skills: Joi.array().items(Joi.string()).required(),
-  education: Joi.array().items(Joi.any()).required(),
-  workExperience: Joi.array().items(Joi.any()).required(),
+  education: Joi.array().items(
+    Joi.object({
+      institution: Joi.string().required(),
+      major: Joi.string().required(),
+      degree: Joi.string().required(),
+      start: Joi.string().required(),
+      end: Joi.string().required(),
+      gpa: Joi.number().required(),
+      notes: Joi.string().optional(),
+    })
+  ).required(),
+  workExperience: Joi.array().items(
+    Joi.object({
+      position: Joi.string().required(),
+      company: Joi.string().required(),
+      start: Joi.string().required(),
+      end: Joi.string().required(),
+      location: Joi.string().required(),
+      notes: Joi.string().optional(),
+    })
+  ).required(),
   isAdmin: Joi.boolean().required(),
 });
 
@@ -27,9 +46,28 @@ export const createUserSchema = Joi.object({
   country: Joi.string().required(),
   phoneNumber: Joi.string().allow(null, '').optional(),
   skills: Joi.array().items(Joi.string()).optional(),
-  education: Joi.array().items(Joi.any()).optional(),
-  workExperience: Joi.array().items(Joi.any()).optional(),
-  isAdmin: Joi.boolean().optional(),
+  education: Joi.array().items(
+    Joi.object({
+      institution: Joi.string().required(),
+      major: Joi.string().required(),
+      degree: Joi.string().required(),
+      start: Joi.string().required(),
+      end: Joi.string().required(),
+      gpa: Joi.number().required(),
+      notes: Joi.string().optional(),
+    })
+  ).optional(),
+  workExperience: Joi.array().items(
+    Joi.object({
+      position: Joi.string().required(),
+      company: Joi.string().required(),
+      start: Joi.string().required(),
+      end: Joi.string().required(),
+      location: Joi.string().required(),
+      notes: Joi.string().optional(),
+    })
+  ).optional(),
+  isAdmin: Joi.boolean().forbidden(),
 });
 
 // Schema for updating a user (input)
@@ -41,9 +79,24 @@ export const updateUserSchema = Joi.object({
   country: Joi.string().required(),
   phoneNumber: Joi.string().allow(null, '').optional(),
   skills: Joi.array().items(Joi.string()).optional(),
-  education: Joi.array().items(Joi.any()).optional(),
-  workExperience: Joi.array().items(Joi.any()).optional(),
-  isAdmin: Joi.boolean().optional(),
+  education: Joi.array().items(Joi.object({
+    institution: Joi.string().required(),
+    major: Joi.string().required(),
+    degree: Joi.string().required(),
+    start: Joi.string().required(),
+    end: Joi.string().required(),
+    gpa: Joi.number().required(),
+    notes: Joi.string().optional(),
+  })).optional(),
+  workExperience: Joi.array().items(Joi.object({
+    position: Joi.string().required(),
+    company: Joi.string().required(),
+    start: Joi.string().required(),
+    end: Joi.string().required(),
+    location: Joi.string().required(),
+    notes: Joi.string().optional(),
+  })).optional(),
+  isAdmin: Joi.boolean().forbidden(),
 });
 
 // Swagger equivalents
