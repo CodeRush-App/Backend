@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
+}
+
+/// Registered users of the platform
+model users {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  username       String
+  email          String   @unique
+  /// Hashed password
+  password       String
+  country        String
+  /// Problem solving score
+  score          Int      @default(0)
+  /// Ranked rating
+  elo            Int      @default(0)
+  phoneNumber    String?
+  skills         String[] @default([])
+  education      Json[]   @default([])
+  workExperience Json[]   @default([])
+  isAdmin        Boolean  @default(false)
+
+  @@map("users")
+}
+
+/// Company profiles
+model companies {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  name           String @unique
+  size           String
+  country        String
+  /// User ID of the company manager
+  managedBy      String @db.ObjectId
+  openPositions  Json[] @default([])
+  upcomingEvents Json[] @default([])
+
+  @@map("companies")
+}
+
+/// Problem statements for coding challenges
+model problems {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  title       String     @unique
+  /// URL-friendly identifier
+  slug        String     @unique
+  difficulty  Difficulty
+  topic       String
+  tags        String[]
+  description String
+  /// Function signature and details (Parameters, Return type)
+  function    Json
+  constraints String[]
+  examples    Json[]
+  testCases   Json[]
+  createdAt   DateTime
+  updatedAt   DateTime
+
+  @@map("problems")
+  @@index([topic])
+  @@index([difficulty])
+}
+
+/// User submissions for problems
+model submissions {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  /// ID of the user who submitted
+  userId            String   @map("userId") @db.ObjectId
+  /// Slug of the problem submitted for
+  problemSlug       String
+  result            Result
+  language          String
+  submissionDate    DateTime
+  calculationTimeMs Float
+  complexity        String
+  memoryUsageKb     Float
+  code              String
+
+  @@map("submissions")
+  @@index([userId, problemSlug])
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum Result {
+  Accepted
+  Denied
+}

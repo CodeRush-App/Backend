@@ -21,3 +21,16 @@
 
 - ESLint config: `eslint.config.js`
 - Prettier config: `.prettierrc`
+
+## Environment Variables
+
+- See `.env.example` or `src/config/env.ts` for required variables
+
+## Database
+
+- Uses Prisma ORM
+- Configure database in `.env`
+
+---
+
+For more details, see inline code comments.

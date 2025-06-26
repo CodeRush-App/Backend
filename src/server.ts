@@ -1,11 +1,14 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import app from './app';
+import { connectToDatabase } from './config/database';
+import { prisma } from './config/database';
 import './config/env';
 
 async function main() {
-  const serverURL = process.env.NODE_ENV === 'development' ? `http://localhost:${process.env.PORT}` : 'https://coderush.loca.lt';
+  await connectToDatabase();
 
+  const serverURL = process.env.NODE_ENV === 'development' ? `http://localhost:${process.env.PORT}` : 'https://coderush.loca.lt';
   const server = app.listen(process.env.PORT, () => {
     console.log(`Server is running on ${serverURL}`);
   });
@@ -18,7 +21,15 @@ async function main() {
     server.close(async () => {
       console.log('HTTP server closed');
 
-      // 2. Exit the process
+      // 2. Close database connection
+      try {
+        await prisma.$disconnect();
+        console.log('Database connection closed');
+      } catch (err) {
+        console.error('Error during database disconnection:', err);
+      }
+
+      // 3. Exit the process
       process.exit(0);
     });
 
