@@ -88,8 +88,6 @@ export const getCompanyById = catchAsync(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Company'
- *       401:
- *         description: Unauthorized
  */
 export const createCompany = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
@@ -122,20 +120,15 @@ export const createCompany = catchAsync(
  *             $ref: '#/components/schemas/Company'
  *     responses:
  *       200:
- *         description: Company updated
+ *         description: Company updated successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Company'
- *       401:
- *         description: Unauthorized
- *       404:
- *         description: Company not found
  */
 export const updateCompany = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
     const company = await companyService.updateCompany(req.params.id, req.body);
-    if (!company) throw new ApiError(404, 'Company not found');
     apicache.clear(CACHE_CLEAR_ENDPOINT);
     res.json(company);
   }
@@ -158,11 +151,7 @@ export const updateCompany = catchAsync(
  *           type: string
  *     responses:
  *       204:
- *         description: Company deleted
- *       401:
- *         description: Unauthorized
- *       404:
- *         description: Company not found
+ *         description: Company deleted successfully
  */
 export const deleteCompany = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {

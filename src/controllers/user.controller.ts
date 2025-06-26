@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
 import * as userService from '../services/user.service';
 import ApiError from '../types/ApiError';
 import { catchAsync } from '../utils/catchAsync';
@@ -119,8 +118,6 @@ export const createUser = catchAsync(async (req: Request, res: Response, _next: 
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
- *       404:
- *         description: User not found
  */
 export const updateUser = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
   const data = req.body;
@@ -144,9 +141,7 @@ export const updateUser = catchAsync(async (req: Request, res: Response, _next: 
  *           type: string
  *     responses:
  *       204:
- *         description: User deleted successfully, no content returned
- *       404:
- *         description: User not found
+ *         description: User deleted successfully
  */
 export const deleteUser = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
   await userService.deleteUser(req.params.id);
