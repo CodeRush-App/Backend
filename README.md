@@ -26,6 +26,13 @@
 
 - See `.env.example` or `src/config/env.ts` for required variables
 
+## Project Structure
+
+- `src/config` - Configuration files
+- `src/middleware` - Express middleware
+- `src/types` - Custom types
+- `prisma` - Prisma schema and migrations
+
 ## Database
 
 - Uses Prisma ORM
