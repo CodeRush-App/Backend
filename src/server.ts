@@ -4,6 +4,7 @@ import app from './app';
 import { connectToDatabase } from './config/database';
 import { prisma } from './config/database';
 import './config/env';
+import type { } from './types/express';
 
 async function main() {
   await connectToDatabase();
