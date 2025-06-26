@@ -5,6 +5,11 @@ import {
   userCreateSchemaSwagger,
   userUpdateSchemaSwagger,
 } from '../validators/user.validator';
+import {
+  companySchemaSwagger,
+  companyCreateSchemaSwagger,
+  companyUpdateSchemaSwagger,
+} from '../validators/companies.validator';
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -71,6 +76,9 @@ Error responses include a JSON object with an \`error\` field describing the iss
         User: userSchemaSwagger,
         UserCreate: userCreateSchemaSwagger,
         UserUpdate: userUpdateSchemaSwagger,
+        Company: companySchemaSwagger,
+        CompanyCreate: companyCreateSchemaSwagger,
+        CompanyUpdate: companyUpdateSchemaSwagger,
       },
     },
     security: [
