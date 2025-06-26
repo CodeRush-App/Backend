@@ -32,6 +32,7 @@
 
 ## Project Structure
 
+- `src/config` - Configuration files
 - `src/controllers` - Route handlers
 - `src/services` - Business logic
 - `src/routes` - Express routers
