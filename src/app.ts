@@ -1,9 +1,13 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './config/swagger';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import securityMiddleware from './middleware/security';
 import errorHandler from './middleware/error';
+
+import apiRouter from './routes/index';
 
 const app: Application = express();
 
@@ -24,6 +28,12 @@ app.use(...securityMiddleware);
 app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({ status: 'ok' });
 });
+
+// API Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Routes
+app.use('/api/v1', apiRouter);
 
 // Error handling middleware
 app.use(errorHandler);

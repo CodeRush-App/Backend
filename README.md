@@ -22,15 +22,23 @@
 - ESLint config: `eslint.config.js`
 - Prettier config: `.prettierrc`
 
+## API Documentation
+
+- Swagger UI available at `/api-docs` when running
+
 ## Environment Variables
 
 - See `.env.example` or `src/config/env.ts` for required variables
 
 ## Project Structure
 
-- `src/config` - Configuration files
+- `src/controllers` - Route handlers
+- `src/services` - Business logic
+- `src/routes` - Express routers
 - `src/middleware` - Express middleware
+- `src/validators` - Joi validation schemas
 - `src/types` - Custom types
+- `src/utils` - Utilities
 - `prisma` - Prisma schema and migrations
 
 ## Database
@@ -40,4 +48,4 @@
 
 ---
 
-For more details, see inline code comments.
+For more details, see inline code comments and Swagger API docs.
