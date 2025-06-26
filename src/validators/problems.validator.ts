@@ -53,6 +53,8 @@ export const problemSchema = Joi.object({
 
 export const createProblemSchema = Joi.object({
   ...baseProblemSchema,
+  createdAt: Joi.date().forbidden(),
+  updatedAt: Joi.date().forbidden(),
 });
 
 export const updateProblemSchema = Joi.object({
@@ -66,8 +68,8 @@ export const updateProblemSchema = Joi.object({
   constraints: Joi.array().items(Joi.string()).optional(),
   examples: Joi.array().items(exampleSchema).optional(),
   testCases: Joi.array().items(testCaseSchema).optional(),
-  createdAt: Joi.date().optional(),
-  updatedAt: Joi.date().optional(),
+  createdAt: Joi.date().forbidden(),
+  updatedAt: Joi.date().forbidden(),
 });
 
 

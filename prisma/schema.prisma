@@ -59,8 +59,8 @@ model problems {
   constraints String[]
   examples    Json[]
   testCases   Json[]
-  createdAt   DateTime
-  updatedAt   DateTime
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now())
 
   @@map("problems")
   @@index([topic])

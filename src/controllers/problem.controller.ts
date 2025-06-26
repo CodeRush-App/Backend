@@ -87,7 +87,7 @@ export const getProblemById = catchAsync(
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Problem'
+ *               $ref: '#/components/schemas/ProblemCreate'
  */
 export const createProblem = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
@@ -124,7 +124,7 @@ export const createProblem = catchAsync(
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Problem'
+ *               $ref: '#/components/schemas/ProblemUpdate'
  */
 export const updateProblem = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {

@@ -14,7 +14,8 @@ export const createProblem = async (data: Prisma.problemsCreateInput) => {
 };
 
 export const updateProblem = async (id: string, data: Partial<Prisma.problemsUpdateInput>) => {
-  return prisma.problems.update({ where: { id }, data });
+  const updateData = { ...data, updatedAt: new Date() };
+  return prisma.problems.update({ where: { id }, data: updateData });
 };
 
 export const deleteProblem = async (id: string) => {
