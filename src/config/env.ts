@@ -1,4 +1,4 @@
-const requiredEnvVars = ['MONGODB_URI', 'DB_NAME', 'FRONTEND_ORIGIN', 'PORT'];
+const requiredEnvVars = ['MONGODB_URI', 'FRONTEND_ORIGIN', 'PORT'];
 
 const missingVars = requiredEnvVars.filter((varName) => !process.env[varName]);
 
