@@ -4,6 +4,8 @@ import ApiError from '../types/ApiError';
 import apicache from 'apicache';
 import { catchAsync } from '../utils/catchAsync';
 
+const CACHE_CLEAR_ENDPOINT = '/api/v1/companies';
+
 /**
  * @swagger
  * tags:
@@ -92,7 +94,7 @@ export const getCompanyById = catchAsync(
 export const createCompany = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
     const company = await companyService.createCompany(req.body);
-    apicache.clear('/api/v1/companies');
+    apicache.clear(CACHE_CLEAR_ENDPOINT);
     res.status(201).json(company);
   }
 );
@@ -134,7 +136,7 @@ export const updateCompany = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
     const company = await companyService.updateCompany(req.params.id, req.body);
     if (!company) throw new ApiError(404, 'Company not found');
-    apicache.clear('/api/v1/companies');
+    apicache.clear(CACHE_CLEAR_ENDPOINT);
     res.json(company);
   }
 );
@@ -165,7 +167,7 @@ export const updateCompany = catchAsync(
 export const deleteCompany = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
     await companyService.deleteCompany(req.params.id);
-    apicache.clear('/api/v1/companies');
+    apicache.clear(CACHE_CLEAR_ENDPOINT);
     res.status(204).send();
   }
 );
