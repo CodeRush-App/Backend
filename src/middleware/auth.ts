@@ -31,7 +31,8 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
       req.isAdmin = decoded.isAdmin;
     }
     next();
-  } catch {
+  } catch (error) {
+    console.error('Error during token verification:', error);
     res.status(403).json({ message: 'Invalid or expired token' });
   }
 };
@@ -71,8 +72,9 @@ export const authorizeCompanyManagerOrAdmin = async (
       return;
     }
     res.status(403).json({ message: 'Not allowed' });
-  } catch {
-    res.status(500).json({ message: 'Server error' });
+  } catch (error) {
+    console.error('Error during authorization:', error);
+    res.status(500).json({ message: 'Error during authorization' });
   }
 };
 

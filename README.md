@@ -28,6 +28,7 @@
 
 ## Project Structure
 
+- `src/config` - Configuration files
 - `src/middleware` - Express middleware
 - `src/types` - Custom types
 - `prisma` - Prisma schema and migrations
