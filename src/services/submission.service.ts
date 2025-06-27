@@ -21,23 +21,11 @@ export const createSubmission = async (data: Prisma.submissionsCreateInput) => {
   return prisma.submissions.create({ data });
 };
 
-export const updateSubmission = async (
-  userId: string,
-  problemId: string,
-  data: Partial<Prisma.submissionsUpdateInput>
-) => {
-  return prisma.submissions.updateMany({ where: { userId, problemId }, data });
-};
-
 export const updateSubmissionById = async (
   id: string,
   data: Partial<Prisma.submissionsUpdateInput>
 ) => {
   return prisma.submissions.update({ where: { id }, data });
-};
-
-export const deleteSubmission = async (userId: string, problemId: string) => {
-  return prisma.submissions.deleteMany({ where: { userId, problemId } });
 };
 
 export const deleteSubmissionById = async (id: string) => {

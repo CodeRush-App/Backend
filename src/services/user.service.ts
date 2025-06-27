@@ -10,10 +10,6 @@ export const getUserById = async (id: string) => {
   return prisma.users.findUnique({ where: { id } });
 };
 
-export const getUserByEmail = async (email: string) => {
-  return prisma.users.findUnique({ where: { email } });
-};
-
 export const registerUser = async (
   data: Omit<Prisma.usersCreateInput, 'password'> & { password: string }
 ) => {
