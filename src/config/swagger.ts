@@ -15,6 +15,11 @@ import {
   problemCreateSchemaSwagger,
   problemUpdateSchemaSwagger,
 } from '../validators/problems.validator';
+import {
+  submissionSchemaSwagger,
+  submissionCreateSchemaSwagger,
+  submissionUpdateSchemaSwagger,
+} from '../validators/submissions.validator';
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -87,6 +92,9 @@ Error responses include a JSON object with an \`error\` field describing the iss
         Problem: problemSchemaSwagger,
         ProblemCreate: problemCreateSchemaSwagger,
         ProblemUpdate: problemUpdateSchemaSwagger,
+        Submission: submissionSchemaSwagger,
+        SubmissionCreate: submissionCreateSchemaSwagger,
+        SubmissionUpdate: submissionUpdateSchemaSwagger,
       },
     },
     security: [

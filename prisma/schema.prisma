@@ -72,8 +72,8 @@ model submissions {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
   /// ID of the user who submitted
   userId            String   @map("userId") @db.ObjectId
-  /// Slug of the problem submitted for
-  problemSlug       String
+  /// ID of the problem submitted for
+  problemId         String   @map("problemId") @db.ObjectId
   result            Result
   language          String
   submissionDate    DateTime
@@ -83,13 +83,13 @@ model submissions {
   code              String
 
   @@map("submissions")
-  @@index([userId, problemSlug])
+  @@index([userId, problemId])
 }
 
 enum Difficulty {
-  EASY
-  MEDIUM
-  HARD
+  Easy
+  Medium
+  Hard
 }
 
 enum Result {
