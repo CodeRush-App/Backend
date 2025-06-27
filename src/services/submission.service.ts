@@ -18,7 +18,8 @@ export const getSubmissionById = async (id: string) => {
 };
 
 export const createSubmission = async (data: Prisma.submissionsCreateInput) => {
-  return prisma.submissions.create({ data });
+  const updateData = { ...data, submissionDate: new Date() };
+  return prisma.submissions.create({ data: updateData });
 };
 
 export const updateSubmissionById = async (

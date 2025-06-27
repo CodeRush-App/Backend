@@ -10,7 +10,8 @@ export const getProblemById = async (id: string) => {
 };
 
 export const createProblem = async (data: Prisma.problemsCreateInput) => {
-  return prisma.problems.create({ data });
+  const updateData = { ...data, createdAt: new Date(), updatedAt: new Date() };
+  return prisma.problems.create({ data: updateData });
 };
 
 export const updateProblem = async (id: string, data: Partial<Prisma.problemsUpdateInput>) => {
