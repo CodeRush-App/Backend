@@ -1,28 +1,27 @@
 import Joi from 'joi';
 import j2s from 'joi-to-swagger';
 
-// Base schemas for nested objects
 const functionParameterSchema = Joi.object({
-  name: Joi.string().required(),
-  type: Joi.string().required(),
-  description: Joi.string().required(),
+  name: Joi.string().max(50).required(),
+  type: Joi.string().max(50).required(),
+  description: Joi.string().max(500).required(),
 });
 
 const functionReturnSchema = Joi.object({
-  type: Joi.string().required(),
-  description: Joi.string().required(),
+  type: Joi.string().max(50).required(),
+  description: Joi.string().max(500).required(),
 });
 
 const functionSchema = Joi.object({
-  name: Joi.string().required(),
-  parameters: Joi.array().items(functionParameterSchema).required(),
+  name: Joi.string().max(100).required(),
+  parameters: Joi.array().items(functionParameterSchema).max(30).required(),
   return: functionReturnSchema.required(),
 });
 
 const exampleSchema = Joi.object({
   input: Joi.any().required(),
   output: Joi.any().required(),
-  explanation: Joi.string().required(),
+  explanation: Joi.string().max(1000).required(),
 });
 
 const testCaseSchema = Joi.object({
@@ -30,18 +29,17 @@ const testCaseSchema = Joi.object({
   expectedOutput: Joi.any().required(),
 });
 
-// Base problem fields
 const baseProblemSchema = {
-  title: Joi.string().required(),
-  slug: Joi.string().required(),
+  title: Joi.string().max(200).required(),
+  slug: Joi.string().max(100).pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).required(),
   difficulty: Joi.string().valid('Easy', 'Medium', 'Hard').required(),
-  topic: Joi.string().required(),
-  tags: Joi.array().items(Joi.string()).required(),
-  description: Joi.string().required(),
+  topic: Joi.string().max(100).required(),
+  tags: Joi.array().items(Joi.string().max(50)).max(20).required(),
+  description: Joi.string().max(10000).required(),
   function: functionSchema.required(),
-  constraints: Joi.array().items(Joi.string()).required(),
-  examples: Joi.array().items(exampleSchema).required(),
-  testCases: Joi.array().items(testCaseSchema).required(),
+  constraints: Joi.array().items(Joi.string().max(500)).max(20).required(),
+  examples: Joi.array().items(exampleSchema).max(10).required(),
+  testCases: Joi.array().items(testCaseSchema).max(100).required(),
   createdAt: Joi.date().required(),
   updatedAt: Joi.date().required(),
 };
@@ -58,16 +56,16 @@ export const createProblemSchema = Joi.object({
 });
 
 export const updateProblemSchema = Joi.object({
-  title: Joi.string().optional(),
-  slug: Joi.string().optional(),
+  title: Joi.string().max(200).optional(),
+  slug: Joi.string().max(100).pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).optional(),
   difficulty: Joi.string().valid('Easy', 'Medium', 'Hard').optional(),
-  topic: Joi.string().optional(),
-  tags: Joi.array().items(Joi.string()).optional(),
-  description: Joi.string().optional(),
+  topic: Joi.string().max(100).optional(),
+  tags: Joi.array().items(Joi.string().max(50)).max(20).optional(),
+  description: Joi.string().max(10000).optional(),
   function: functionSchema.optional(),
-  constraints: Joi.array().items(Joi.string()).optional(),
-  examples: Joi.array().items(exampleSchema).optional(),
-  testCases: Joi.array().items(testCaseSchema).optional(),
+  constraints: Joi.array().items(Joi.string().max(500)).max(20).optional(),
+  examples: Joi.array().items(exampleSchema).max(10).optional(),
+  testCases: Joi.array().items(testCaseSchema).max(100).optional(),
   createdAt: Joi.date().forbidden(),
   updatedAt: Joi.date().forbidden(),
 });

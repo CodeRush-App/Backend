@@ -50,7 +50,7 @@ export const createUserSchema = Joi.object({
 export const updateUserSchema = Joi.object({
   name: Joi.string().max(100).optional(),
   username: Joi.string().max(50).optional(),
-  email: Joi.forbidden(),
+  email: Joi.forbidden(), // Email cannot be changed due to unique constraint
   password: Joi.string().min(8).max(128).optional(),
   country: Joi.string().max(100).optional(),
   phoneNumber: Joi.string().allow(null, '').max(20).optional(),
