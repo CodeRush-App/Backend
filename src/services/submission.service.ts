@@ -5,6 +5,10 @@ export const getAllSubmissions = async () => {
   return prisma.submissions.findMany();
 };
 
+export const getAllSubmissionsByUser = async (userId: string) => {
+  return prisma.submissions.findMany({ where: { userId } });
+};
+
 export const getSubmissionsByUserAndProblem = async (userId: string, problemId: string) => {
   return prisma.submissions.findMany({ where: { userId, problemId } });
 };

@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as submissionService from '../services/submission.service';
 import ApiError from '../types/ApiError';
-import { submissions as Submission } from '@prisma';
 import { catchAsync } from '../utils/catchAsync';
 
 /**
@@ -15,7 +14,7 @@ import { catchAsync } from '../utils/catchAsync';
  * @swagger
  * /submissions:
  *   get:
- *     summary: Get all submissions for current user
+ *     summary: Get all submissions for current user or all submissions for admin
  *     tags: [Submissions]
  *     security:
  *       - BearerAuth: []
@@ -31,9 +30,10 @@ import { catchAsync } from '../utils/catchAsync';
  */
 export const getAllSubmissions = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
-    const result = await submissionService.getAllSubmissions();
-    // Filter submissions to only those belonging to the authenticated user except for admins
-    res.json(result.filter((s: Submission) => s.userId === req.userId || req.isAdmin));
+    let submissions;
+    if (req.isAdmin) submissions = await submissionService.getAllSubmissions();
+    else submissions = await submissionService.getAllSubmissionsByUser(req.userId!);
+    res.json(submissions);
   }
 );
 
@@ -131,7 +131,7 @@ export const getSubmissionById = catchAsync(
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Submission'
+ *             $ref: '#/components/schemas/SubmissionCreate'
  *     responses:
  *       201:
  *         description: Submission created
@@ -171,7 +171,7 @@ export const createSubmission = catchAsync(
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Submission'
+ *             $ref: '#/components/schemas/SubmissionUpdate'
  *     responses:
  *       200:
  *         description: Submission updated successfully
