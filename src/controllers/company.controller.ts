@@ -80,7 +80,7 @@ export const getCompanyById = catchAsync(
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Company'
+ *             $ref: '#/components/schemas/CompanyCreate'
  *     responses:
  *       201:
  *         description: Company created
@@ -117,7 +117,7 @@ export const createCompany = catchAsync(
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Company'
+ *             $ref: '#/components/schemas/CompanyUpdate'
  *     responses:
  *       200:
  *         description: Company updated successfully
