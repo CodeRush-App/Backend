@@ -1,78 +1,78 @@
 import { Request, Response, NextFunction } from 'express';
-import * as companyService from '../services/company.service';
+import * as problemService from '../services/problem.service';
 import ApiError from '../types/ApiError';
 import apicache from 'apicache';
 import { catchAsync } from '../utils/catchAsync';
 
-const CACHE_CLEAR_ENDPOINT = '/api/v1/companies';
+const CACHE_CLEAR_ENDPOINT = '/api/v1/problems';
 
 /**
  * @swagger
  * tags:
- *   name: Companies
- *   description: Company management and operations
+ *   name: Problems
+ *   description: Problem management and operations
  */
 
 /**
  * @swagger
- * /companies:
+ * /problems:
  *   get:
- *     summary: Get all companies
- *     tags: [Companies]
+ *     summary: Get all problems
+ *     tags: [Problems]
  *     responses:
  *       200:
- *         description: List of companies
+ *         description: List of problems
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Company'
+ *                 $ref: '#/components/schemas/Problem'
  */
-export const getAllCompanies = catchAsync(
+export const getAllProblems = catchAsync(
   async (_req: Request, res: Response, _next: NextFunction) => {
-    const result = await companyService.getAllCompanies();
+    const result = await problemService.getAllProblems();
     res.json(result);
   }
 );
 
 /**
  * @swagger
- * /companies/{id}:
+ * /problems/{id}:
  *   get:
- *     summary: Get company by ID
- *     tags: [Companies]
+ *     summary: Get problem by ID
+ *     tags: [Problems]
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID of company to retrieve
+ *         description: ID of problem to retrieve
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Company found
+ *         description: Problem found
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Company'
+ *               $ref: '#/components/schemas/Problem'
  *       404:
- *         description: Company not found
+ *         description: Problem not found
  */
-export const getCompanyById = catchAsync(
+export const getProblemById = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
-    const company = await companyService.getCompanyById(req.params.id);
-    if (!company) throw new ApiError(404, 'Company not found');
-    res.json(company);
+    const problem = await problemService.getProblemById(req.params.id);
+    if (!problem) throw new ApiError(404, 'Problem not found');
+    res.json(problem);
   }
 );
 
 /**
  * @swagger
- * /companies:
+ * /problems:
  *   post:
- *     summary: Create a new company
- *     tags: [Companies]
+ *     summary: Create a new problem
+ *     tags: [Problems]
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -80,35 +80,35 @@ export const getCompanyById = catchAsync(
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Company'
+ *             $ref: '#/components/schemas/Problem'
  *     responses:
  *       201:
- *         description: Company created
+ *         description: Problem created
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Company'
+ *               $ref: '#/components/schemas/ProblemCreate'
  */
-export const createCompany = catchAsync(
+export const createProblem = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
-    const company = await companyService.createCompany(req.body);
+    const problem = await problemService.createProblem(req.body);
     apicache.clear(CACHE_CLEAR_ENDPOINT);
-    res.status(201).json(company);
+    res.status(201).json(problem);
   }
 );
 
 /**
  * @swagger
- * /companies/{id}:
+ * /problems/{id}:
  *   put:
- *     summary: Update a company
- *     tags: [Companies]
+ *     summary: Update a problem
+ *     tags: [Problems]
  *     security:
  *       - BearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID of company to update
+ *         description: ID of problem to update
  *         required: true
  *         schema:
  *           type: string
@@ -117,45 +117,45 @@ export const createCompany = catchAsync(
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Company'
+ *             $ref: '#/components/schemas/Problem'
  *     responses:
  *       200:
- *         description: Company updated successfully
+ *         description: Problem updated successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Company'
+ *               $ref: '#/components/schemas/ProblemUpdate'
  */
-export const updateCompany = catchAsync(
+export const updateProblem = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
-    const company = await companyService.updateCompany(req.params.id, req.body);
+    const problem = await problemService.updateProblem(req.params.id, req.body);
     apicache.clear(CACHE_CLEAR_ENDPOINT);
-    res.json(company);
+    res.json(problem);
   }
 );
 
 /**
  * @swagger
- * /companies/{id}:
+ * /problems/{id}:
  *   delete:
- *     summary: Delete a company
- *     tags: [Companies]
+ *     summary: Delete a problem
+ *     tags: [Problems]
  *     security:
  *       - BearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID of company to delete
+ *         description: ID of problem to delete
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       204:
- *         description: Company deleted successfully
+ *         description: Problem deleted successfully
  */
-export const deleteCompany = catchAsync(
+export const deleteProblem = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
-    await companyService.deleteCompany(req.params.id);
+    await problemService.deleteProblem(req.params.id);
     apicache.clear(CACHE_CLEAR_ENDPOINT);
     res.status(204).send();
   }
