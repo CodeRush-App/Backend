@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as submissionController from '../controllers/submission.controller';
-import { authenticate } from '../middleware/auth';
+import { authenticate, authorizeAdmin } from '../middleware/auth';
 import {
   createSubmissionSchema,
   updateSubmissionSchema,
@@ -25,9 +25,10 @@ router.get('/:id', authenticate, submissionController.getSubmissionById);
 router.put(
   '/:id',
   authenticate,
+  authorizeAdmin,
   validate(updateSubmissionSchema),
   submissionController.updateSubmission
 );
-router.delete('/:id', authenticate, submissionController.deleteSubmission);
+router.delete('/:id', authenticate, authorizeAdmin, submissionController.deleteSubmission);
 
 export default router;
