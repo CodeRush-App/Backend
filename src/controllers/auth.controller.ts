@@ -69,8 +69,6 @@ export const register = catchAsync(async (req: Request, res: Response, _next: Ne
  *               properties:
  *                 user:
  *                   $ref: '#/components/schemas/User'
- *                 token:
- *                   type: string
  *       401:
  *         description: Invalid credentials
  */
