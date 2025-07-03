@@ -130,6 +130,7 @@ export const updateProblem = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
     const problem = await problemService.updateProblem(req.params.id, req.body);
     apicache.clear(CACHE_CLEAR_ENDPOINT);
+    apicache.clear(CACHE_CLEAR_ENDPOINT + `/${req.params.id}`);
     res.json(problem);
   }
 );
@@ -157,6 +158,7 @@ export const deleteProblem = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
     await problemService.deleteProblem(req.params.id);
     apicache.clear(CACHE_CLEAR_ENDPOINT);
+    apicache.clear(CACHE_CLEAR_ENDPOINT + `/${req.params.id}`);
     res.status(204).send();
   }
 );
