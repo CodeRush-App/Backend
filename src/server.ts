@@ -4,14 +4,13 @@ import app from './app';
 import { connectToDatabase } from './config/database';
 import { prisma } from './config/database';
 import './config/env';
-import type { } from './types/express';
+import type {} from './types/express';
 
 async function main() {
   await connectToDatabase();
 
-  const serverURL = process.env.NODE_ENV === 'development' ? `http://localhost:${process.env.PORT}` : 'https://coderush.loca.lt';
   const server = app.listen(process.env.PORT, () => {
-    console.log(`Server is running on ${serverURL}`);
+    console.log(`Server is running on https://coderush.loca.lt`);
   });
 
   // Graceful shutdown

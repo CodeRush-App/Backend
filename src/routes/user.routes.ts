@@ -7,6 +7,8 @@ import { authenticate, authorizeSelfOrAdmin, authorizeAdmin } from '../middlewar
 const router = Router();
 
 router.get('/', authenticate, authorizeAdmin, userController.getAllUsers);
+router.get('/exists', userController.checkUserExistsByEmail);
+router.get('/scores', authenticate, userController.getAllUserScores);
 router.get('/:id', authenticate, authorizeSelfOrAdmin, userController.getUserById);
 router.post('/', validate(createUserSchema), userController.createUser);
 router.put(

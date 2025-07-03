@@ -9,7 +9,7 @@ const complexityEnum = [
   'O(n^2)',
   'O(n^3)',
   'O(2^n)',
-  'O(n!)'
+  'O(n!)',
 ];
 
 const baseSubmissionSchema = {
@@ -19,7 +19,9 @@ const baseSubmissionSchema = {
   language: Joi.string().required(),
   submissionDate: Joi.date().required(),
   calculationTimeMs: Joi.number().min(0).max(300000).required(), // Max 5 minutes
-  complexity: Joi.string().valid(...complexityEnum).required(),
+  complexity: Joi.string()
+    .valid(...complexityEnum)
+    .required(),
   memoryUsageKb: Joi.number().min(0).max(1048576).required(), // Max 1GB
   code: Joi.string().max(50000).required(), // Max 50KB of code
 };
@@ -37,13 +39,16 @@ export const createSubmissionSchema = Joi.object({
 export const updateSubmissionSchema = Joi.object({
   userId: Joi.forbidden(),
   problemId: Joi.forbidden(),
-  result: Joi.string().valid('Accepted', 'Denied').optional(),
-  language: Joi.string().optional(),
+  result: Joi.string().allow(null).valid('Accepted', 'Denied').optional(),
+  language: Joi.string().allow(null).optional(),
   submissionDate: Joi.forbidden(),
-  calculationTimeMs: Joi.number().min(0).max(300000).optional(),
-  complexity: Joi.string().valid(...complexityEnum).optional(),
-  memoryUsageKb: Joi.number().min(0).max(1048576).optional(),
-  code: Joi.string().max(50000).optional(),
+  calculationTimeMs: Joi.number().allow(null).min(0).max(300000).optional(),
+  complexity: Joi.string()
+    .allow(null)
+    .valid(...complexityEnum)
+    .optional(),
+  memoryUsageKb: Joi.number().allow(null).min(0).max(1048576).optional(),
+  code: Joi.string().allow(null).max(50000).optional(),
 });
 
 export const submissionSchemaSwagger = j2s(submissionSchema).swagger;

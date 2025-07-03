@@ -3,14 +3,16 @@ import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../config/database';
 
 interface JwtPayload {
-  sub: string;
-  isAdmin?: boolean;
+  id: string;
+  isAdmin: boolean;
 }
 
 // Authenticate user via JWT in cookies
 export const authenticate = (req: Request, res: Response, next: NextFunction): void => {
   const token =
-    req.cookies['next-auth.session-token'] || req.cookies['__Secure-next-auth.session-token'];
+    req.cookies['authjs.session-token'] ||
+    req.cookies['__Secure-authjs.session-token'] ||
+    req.headers.authorization?.replace('Bearer ', '');
 
   if (!token) {
     res.status(401).json({ message: 'Missing authentication token' });
@@ -26,8 +28,8 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
 
   try {
     const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
-    if (typeof decoded === 'object' && decoded.sub) {
-      req.userId = decoded.sub;
+    if (typeof decoded === 'object' && decoded.id && decoded.isAdmin) {
+      req.userId = decoded.id;
       req.isAdmin = decoded.isAdmin;
     }
     next();
