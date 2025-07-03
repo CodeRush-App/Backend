@@ -6,9 +6,8 @@ const globals = require('globals');
 
 module.exports = [
   {
-    ignores: ['src/generated/**', 'node_modules/**', 'dist/**', 'build/**', 'coverage/**'],
+    ignores: ['generated/**', 'node_modules/**', 'dist/**', 'build/**', 'coverage/**'],
   },
-  js.configs.recommended,
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
@@ -27,6 +26,15 @@ module.exports = [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'no-console': 'warn',
+    },
+  },
+  {
+    files: ['**/*.test.ts', '**/*.spec.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
     },
   },
 ];

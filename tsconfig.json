@@ -15,7 +15,7 @@
     // Allow importing .json files
     "resolveJsonModule": true,
     // Node types for Node.js environment
-    "types": ["node"],
+    "types": ["node", "jest"],
     // Path alias for Prisma
     "baseUrl": ".",
     "paths": {
