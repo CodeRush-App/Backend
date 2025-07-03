@@ -31,7 +31,10 @@ const testCaseSchema = Joi.object({
 
 const baseProblemSchema = {
   title: Joi.string().max(200).required(),
-  slug: Joi.string().max(100).pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).required(),
+  slug: Joi.string()
+    .max(100)
+    .pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+    .required(),
   difficulty: Joi.string().valid('Easy', 'Medium', 'Hard').required(),
   topic: Joi.string().max(100).required(),
   tags: Joi.array().items(Joi.string().max(50)).max(20).required(),
@@ -51,25 +54,28 @@ export const problemSchema = Joi.object({
 
 export const createProblemSchema = Joi.object({
   ...baseProblemSchema,
-  createdAt: Joi.date().forbidden(),
-  updatedAt: Joi.date().forbidden(),
+  createdAt: Joi.forbidden(),
+  updatedAt: Joi.forbidden(),
 });
 
 export const updateProblemSchema = Joi.object({
-  title: Joi.string().max(200).optional(),
-  slug: Joi.string().max(100).pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).optional(),
-  difficulty: Joi.string().valid('Easy', 'Medium', 'Hard').optional(),
-  topic: Joi.string().max(100).optional(),
-  tags: Joi.array().items(Joi.string().max(50)).max(20).optional(),
-  description: Joi.string().max(10000).optional(),
-  function: functionSchema.optional(),
-  constraints: Joi.array().items(Joi.string().max(500)).max(20).optional(),
-  examples: Joi.array().items(exampleSchema).max(10).optional(),
-  testCases: Joi.array().items(testCaseSchema).max(100).optional(),
+  title: Joi.string().allow(null).max(200).optional(),
+  slug: Joi.string()
+    .allow(null)
+    .max(100)
+    .pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+    .optional(),
+  difficulty: Joi.string().allow(null).valid('Easy', 'Medium', 'Hard').optional(),
+  topic: Joi.string().allow(null).max(100).optional(),
+  tags: Joi.array().allow(null).items(Joi.string().max(50)).max(20).optional(),
+  description: Joi.string().allow(null).max(10000).optional(),
+  function: functionSchema.allow(null).optional(),
+  constraints: Joi.array().allow(null).items(Joi.string().max(500)).max(20).optional(),
+  examples: Joi.array().allow(null).items(exampleSchema).max(10).optional(),
+  testCases: Joi.array().allow(null).items(testCaseSchema).max(100).optional(),
   createdAt: Joi.date().forbidden(),
   updatedAt: Joi.date().forbidden(),
 });
-
 
 export const problemSchemaSwagger = j2s(problemSchema).swagger;
 export const problemCreateSchemaSwagger = j2s(createProblemSchema).swagger;
