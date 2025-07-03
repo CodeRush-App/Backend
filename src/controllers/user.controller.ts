@@ -62,6 +62,67 @@ export const getUserById = catchAsync(async (req: Request, res: Response, _next:
 
 /**
  * @swagger
+ * /users/exists:
+ *   get:
+ *     summary: Check if a user exists by email
+ *     tags: [Users]
+ *     parameters:
+ *       - name: email
+ *         in: query
+ *         description: User's email address
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Existence result
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     provider:
+ *                       type: string
+ */
+export const checkUserExistsByEmail = catchAsync(
+  async (req: Request, res: Response, _next: NextFunction) => {
+    const email = req.query.email as string;
+    if (!email) return res.status(400).json({ error: 'Email query parameter is required' });
+    const user = await userService.checkUserExistsByEmail(email);
+    res.json({ user });
+  }
+);
+
+/**
+ * @swagger
+ * /users/scores:
+ *   get:
+ *     summary: Get all user scores
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: List of user scores
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/UserScores'
+ */
+export const getAllUserScores = catchAsync(
+  async (_req: Request, res: Response, _next: NextFunction) => {
+    const scores = await userService.getAllUserScores();
+    res.json(scores);
+  }
+);
+
+/**
+ * @swagger
  * /users:
  *   post:
  *     summary: Create a new user
@@ -85,9 +146,8 @@ export const getUserById = catchAsync(async (req: Request, res: Response, _next:
  */
 export const createUser = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
   const data = req.body;
-  if (!data.password) throw new ApiError(400, 'Password is required');
 
-  const createdUser = await userService.registerUser(data);
+  const createdUser = await userService.registerUser(data, prisma);
   res.status(201).json(createdUser);
 });
 

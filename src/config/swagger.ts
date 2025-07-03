@@ -4,6 +4,7 @@ import {
   userSchemaSwagger,
   userCreateSchemaSwagger,
   userUpdateSchemaSwagger,
+  userScoresSchemaSwagger,
 } from '../validators/user.validator';
 import {
   companySchemaSwagger,
@@ -86,6 +87,7 @@ Error responses include a JSON object with an \`error\` field describing the iss
         User: userSchemaSwagger,
         UserCreate: userCreateSchemaSwagger,
         UserUpdate: userUpdateSchemaSwagger,
+        UserScores: userScoresSchemaSwagger,
         Company: companySchemaSwagger,
         CompanyCreate: companyCreateSchemaSwagger,
         CompanyUpdate: companyUpdateSchemaSwagger,

@@ -11,12 +11,12 @@ datasource db {
 /// Registered users of the platform
 model users {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
+  name           String?
   username       String
   email          String   @unique
   /// Hashed password
   password       String
-  country        String
+  country        String?
   /// Problem solving score
   score          Int      @default(0)
   /// Ranked rating
@@ -25,6 +25,8 @@ model users {
   skills         String[] @default([])
   education      Json[]   @default([])
   workExperience Json[]   @default([])
+  providerId     String?
+  provider       String
   isAdmin        Boolean  @default(false)
 
   @@map("users")
@@ -34,8 +36,8 @@ model users {
 model companies {
   id             String @id @default(auto()) @map("_id") @db.ObjectId
   name           String @unique
-  size           String
-  country        String
+  size           String?
+  country        String?
   /// User ID of the company manager
   managedBy      String @db.ObjectId
   openPositions  Json[] @default([])
@@ -59,8 +61,8 @@ model problems {
   constraints String[]
   examples    Json[]
   testCases   Json[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @default(now())
+  createdAt   DateTime
+  updatedAt   DateTime
 
   @@map("problems")
   @@index([topic])
