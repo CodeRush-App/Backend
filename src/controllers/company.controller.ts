@@ -71,7 +71,7 @@ export const getCompanyById = catchAsync(
  * @swagger
  * /companies:
  *   post:
- *     summary: Create a new company
+ *     summary: Create a new company with the associated manager
  *     tags: [Companies]
  *     security:
  *       - BearerAuth: []
@@ -83,7 +83,7 @@ export const getCompanyById = catchAsync(
  *             $ref: '#/components/schemas/CompanyCreate'
  *     responses:
  *       201:
- *         description: Company created
+ *         description: Company and User created
  *         content:
  *           application/json:
  *             schema:
@@ -91,7 +91,11 @@ export const getCompanyById = catchAsync(
  */
 export const createCompany = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
-    const company = await companyService.createCompany(req.body);
+    const { username, email, password, companyName } = req.body;
+    const company = await companyService.createCompanyWithManager(
+      { username, email, password },
+      { name: companyName, managedBy: '' }
+    );
     apicache.clear(CACHE_CLEAR_ENDPOINT);
     res.status(201).json(company);
   }
@@ -130,6 +134,7 @@ export const updateCompany = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
     const company = await companyService.updateCompany(req.params.id, req.body);
     apicache.clear(CACHE_CLEAR_ENDPOINT);
+    apicache.clear(CACHE_CLEAR_ENDPOINT + `/${req.params.id}`);
     res.json(company);
   }
 );
@@ -157,6 +162,7 @@ export const deleteCompany = catchAsync(
   async (req: Request, res: Response, _next: NextFunction) => {
     await companyService.deleteCompany(req.params.id);
     apicache.clear(CACHE_CLEAR_ENDPOINT);
+    apicache.clear(CACHE_CLEAR_ENDPOINT + `/${req.params.id}`);
     res.status(204).send();
   }
 );
