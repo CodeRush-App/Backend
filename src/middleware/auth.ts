@@ -28,9 +28,9 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
 
   try {
     const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
-    if (typeof decoded === 'object' && decoded.id && decoded.isAdmin) {
+    if (typeof decoded === 'object' && decoded.id) {
       req.userId = decoded.id;
-      req.isAdmin = decoded.isAdmin;
+      req.isAdmin = decoded.isAdmin ?? false;
     }
     next();
   } catch (error) {
