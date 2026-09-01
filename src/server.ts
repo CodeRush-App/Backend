@@ -10,7 +10,9 @@ async function main() {
   await connectToDatabase();
 
   const server = app.listen(process.env.PORT, () => {
-    console.log(`Server is running on https://coderush.loca.lt`);
+    console.log(
+      `Server is running on ${process.env.SERVER_URL || 'http://localhost:' + process.env.PORT}`
+    );
   });
 
   // Graceful shutdown

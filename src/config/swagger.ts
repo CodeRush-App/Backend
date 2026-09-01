@@ -65,11 +65,11 @@ Error responses include a JSON object with an \`error\` field describing the iss
     },
     servers: [
       {
-        url: 'https://coderush.loca.lt/api/v1',
+        url: process.env.SERVER_URL,
         description: 'Production server',
       },
       {
-        url: 'http://localhost:3000/api/v1',
+        url: 'http://localhost:3001/api/v1',
         description: 'Local development server',
       },
     ],

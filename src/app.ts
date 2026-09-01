@@ -16,7 +16,10 @@ app.use(compression());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.NODE_ENV === 'development' ? true : 'https://coderushapp.netlify.app',
+    origin: (process.env.ALLOWED_ORIGINS || 'http://localhost:3000')
+      .split(',')
+      .map((o) => o.trim())
+      .filter(Boolean),
     credentials: true,
   })
 );

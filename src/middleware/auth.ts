@@ -28,10 +28,14 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
 
   try {
     const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
-    if (typeof decoded === 'object' && decoded.id && decoded.isAdmin) {
-      req.userId = decoded.id;
-      req.isAdmin = decoded.isAdmin;
+
+    if (typeof decoded !== 'object' || !decoded.id) {
+      res.status(403).json({ message: 'Invalid token payload' });
+      return;
     }
+
+    req.userId = decoded.id;
+    req.isAdmin = decoded.isAdmin ?? false;
     next();
   } catch (error) {
     console.error('Error during token verification:', error);
