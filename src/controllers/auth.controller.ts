@@ -79,6 +79,10 @@ export const login = catchAsync(async (req: Request, res: Response, _next: NextF
 
   if (!user) throw new ApiError(401, 'Invalid email');
 
+  // Block login for OAuth-registered user
+  // Generic error message avoids leaking provider info
+  if (user.provider !== 'credentials') throw new ApiError(401, 'Invalid password');
+
   // Verify password
   const isPasswordValid = await bcrypt.compare(password, user.password);
 
